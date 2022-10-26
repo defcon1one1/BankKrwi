@@ -1,0 +1,66 @@
+1.3 Wykaz tabel
+1. Placówki – przechowuje dane innych banków krwi oraz szpitali, między którymi mogą
+następować transporty krwi. Transport może być tylko do lub z naszego banku (nie
+przechowujemy informacji o transportach pomiędzy innymi bankami krwi), stąd kolumna
+CzyWychodzący w tabeli Transporty (1 – tak, 0 – nie).
+2. Biorcy – przechowuje dane biorców krwi, tj. dane teleadresowe, płeć, datę urodzenia, itp.,
+oraz informacje o grupie krwi.
+3. Donacje – przechowuje dane o donacjach krwi, czyli kto i kiedy oddał krew, jakie były wyniki
+badań dawcy, kto przeprowadził donację, itd. Czasami trzeba przerwać zabieg, bo np.
+donator poczuł się słabo, stąd kolumna CzyUkończono (1 – tak, 0 – nie). Nawet o nieudanej
+donacji nadal zachowujemy informacje. Nie zawiera informacji o grupie krwi; ta jest już
+zawarta w odpowiedniej kolumnie w tabeli Krwiodawcy (nie można pobrać innej grupy krwi
+niż ta którą ma dawca).
+4. GrupaKrwi – przechowuje ID poszczególnych typów krwi, istnieje w celu wyeliminowania
+redundancji danych. Rekordy w tej tabeli są ograniczone, wartość rekordów może się równać
+wyłącznie jednej ośmiu kombinacji grup krwi (A+, A-, B+, B-, AB+, AB-, 0+, 0-). Zasadniczo nie
+można już nic do niej dodać ani jej edytować. Nikt nie powinien mieć dostępu do edycji tej
+tabeli za wyjątkiem administratora systemu, gdyż rekordy w niej zawarte mają służyć jedynie
+jako odnośnik do danej grupy krwi.
+5. Krwiodawcy – przechowuje informacje o krwiodawcach, tj. dane teleadresowe, datę
+urodzenia, płeć, itp. oraz grupę krwi.
+6. Personel – przechowuje dane o personelu; imię, nazwisko oraz stanowisko.
+7. Transfuzje – przechowuje informacje transfuzjach; o biorcy, o dacie i godzinie
+przeprowadzenia transfuzji oraz o liczbie jednostek krwi którą przetoczono.
+8. Transporty – przechowuje informacje o transportach pomiędzy bankami krwi lub placówkami
+medycznymi. Transport może być tylko do albo z naszego banku, stąd kolumna
+CzyWychodzący (1 – tak, 0 – nie).
+9. ZapasyKrwi – przechowuje informacje o tym ile jednostek krwi jest w zasobach banku.
+UWAGA – PK jest tutaj tożsamy z PK z tabeli GrupaKrwi - był to celowy zabieg z mojej strony;
+stwierdziłem, że chcę rozdzielić powyższe tabele z powodów bezpieczeństwa. Np. do tabeli
+GrupaKrwi dostęp miałby mieć tylko administrator systemu, gdyż jest zbyt istotna i wiele
+innych tabel się do niej odnosi, podczas gdy ZapasyKrwi mogą być edytowane również przez
+innych autoryzowanych użytkowników bez narażenia całości systemu na poważny błąd
+mogący spowodować dużą awarię.
+1.4 Wykaz widoków
+1. V_CentraKrwiodawstwa – widok wyróżniający wśród placówek wyłącznie centra
+krwiodawstwa. Może być używany przez zarządzających transportem krwi.
+2. V_Szpitale – analogicznie jak wyżej, widok wyróżniający wśród placówek szpitale.
+3. V_Donacje2020 – widok wyróżniający wśród donacji wyłącznie te dokonane w 2020 roku.
+4. V_KrwiodawcyKraków – widok wyróżniający wśród krwiodawców wyłącznie tych z Krakowa.
+5. V_DonacjeWgGrupyKrwi2021 – widok pokazujący ile donacji poszczególnych grup krwi
+odbyło się w 2021 roku.
+1.5 Wykaz funkcji
+1. BilansTransportów – funkcja skalarna z dwoma parametrami zwracająca bilans transportów
+w zadanym roku i miesiącu, tj. różnicę wartości kolumny LiczbaJednostek z tabeli Transporty
+w zależności, czy transport był wychodzący, czy nie. Przykładowo – w lutym 2020 wyjechało
+51 jednostek, przyjechało 46, a zatem funkcja zwróci -5 dla parametrów (2, 2020).
+2. DawcyGrupyWRoku – funkcja tabelaryczna z dwoma parametrami; grupą krwi oraz rokiem.
+Zwraca ID, imię oraz nazwisko krwiodawców, którzy oddali daną grupę krwi w danym roku.
+Przykład: (1, 2021) zwróci wszystkich krwiodawców o grupie krwi A+, którzy oddali krew w
+roku 2021.
+3. PokażDonacjeDawcy – funkcja tabelaryczna z trzema parametrami zwracająca wszystkie
+donacje zadanego dawcy pomiędzy dwiema zadanymi datami.
+1.6 Wykaz procedur
+1. DodajBiorce – dodaje rekord do tabeli Biorcy.
+2. DodajDonacje – dodaje rekord do tabeli Donacje oraz jednocześnie zwiększa wartość
+odpowiedniego rekordu w tabeli ZapasyKrwi w oparciu o grupę krwi dawcy, o ile donacja
+zakończyła się pomyślnie.
+3. DodajPracownika – dodaje rekord do tabeli Personel.
+4. DodajTransfuzje – dodaje rekord do tabeli Transfuzje oraz jednocześnie zmniejsza
+odpowiedni rekord w tabeli ZapasyKrwi w zależności od grupy krwi biorcy o odpowiednią
+liczbę jednostek, w zależności ile zostało przetoczonych.
+5. DodajZapasy – zwiększa wartość zadanego rekordu w tabeli ZapasyKrwi.
+6. OdejmijZapasy – zmniejsza wartość zadanego rekordu w tabeli ZapasyKrwi.
+7. DodajTransport – dodaje rekord do tabeli Transporty oraz jednocześnie zmienia wartość
+odpowiedniego rekordu w tabeli ZapasyKrwi, w oparciu o kolumnę CzyWychodzący
