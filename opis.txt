@@ -1,4 +1,5 @@
 1.3 Wykaz tabel
+
 1. Placówki – przechowuje dane innych banków krwi oraz szpitali, między którymi mogą
 następować transporty krwi. Transport może być tylko do lub z naszego banku (nie
 przechowujemy informacji o transportach pomiędzy innymi bankami krwi), stąd kolumna
@@ -32,7 +33,11 @@ GrupaKrwi dostęp miałby mieć tylko administrator systemu, gdyż jest zbyt ist
 innych tabel się do niej odnosi, podczas gdy ZapasyKrwi mogą być edytowane również przez
 innych autoryzowanych użytkowników bez narażenia całości systemu na poważny błąd
 mogący spowodować dużą awarię.
+
+
+
 1.4 Wykaz widoków
+
 1. V_CentraKrwiodawstwa – widok wyróżniający wśród placówek wyłącznie centra
 krwiodawstwa. Może być używany przez zarządzających transportem krwi.
 2. V_Szpitale – analogicznie jak wyżej, widok wyróżniający wśród placówek szpitale.
@@ -40,7 +45,11 @@ krwiodawstwa. Może być używany przez zarządzających transportem krwi.
 4. V_KrwiodawcyKraków – widok wyróżniający wśród krwiodawców wyłącznie tych z Krakowa.
 5. V_DonacjeWgGrupyKrwi2021 – widok pokazujący ile donacji poszczególnych grup krwi
 odbyło się w 2021 roku.
+
+
+
 1.5 Wykaz funkcji
+
 1. BilansTransportów – funkcja skalarna z dwoma parametrami zwracająca bilans transportów
 w zadanym roku i miesiącu, tj. różnicę wartości kolumny LiczbaJednostek z tabeli Transporty
 w zależności, czy transport był wychodzący, czy nie. Przykładowo – w lutym 2020 wyjechało
@@ -51,7 +60,11 @@ Przykład: (1, 2021) zwróci wszystkich krwiodawców o grupie krwi A+, którzy o
 roku 2021.
 3. PokażDonacjeDawcy – funkcja tabelaryczna z trzema parametrami zwracająca wszystkie
 donacje zadanego dawcy pomiędzy dwiema zadanymi datami.
+
+
+
 1.6 Wykaz procedur
+
 1. DodajBiorce – dodaje rekord do tabeli Biorcy.
 2. DodajDonacje – dodaje rekord do tabeli Donacje oraz jednocześnie zwiększa wartość
 odpowiedniego rekordu w tabeli ZapasyKrwi w oparciu o grupę krwi dawcy, o ile donacja
